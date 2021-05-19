@@ -19,7 +19,7 @@ function asyncHandler (cb) {
   }
   
 
-// Route that returns a list of users.
+// Route that returns the authorized user.
 router.get('/', authenticateUser, asyncHandler(async(req,res)=>{
     const user = req.currentUser;
 
