@@ -31,8 +31,10 @@ router.get('/', authenticateUser, asyncHandler(async(req,res)=>{
   
 // Route that creates a new user.
 router.post('/', asyncHandler(async (req, res) => {
+  let user;
   try {
-    await User.create(req.body);
+    user = await User.create(req.body);
+    console.log(user);
     res.status(201).location('/')
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {

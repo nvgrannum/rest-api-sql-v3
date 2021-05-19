@@ -68,18 +68,17 @@ router.get('/', asyncHandler(async(req,res)=>{
     router.put('/:id', asyncHandler(async (req, res) => {
         let course;
         try {
-        course = await Course.findByPk(req.params.id);
-        if(course) {
-            await course.update(req.body);
-            res.status(204); 
-        } else {
-            res.sendStatus(404);
+            course = req.body;
+            if(course) {
+                await Course.update(course, {where:{id: req.params.id}});
+                res.status(204).end(); 
+            } else {
+                res.sendStatus(404);
         }
         } catch (error) {
         if(error.name === "SequelizeValidationError") {
-            book = await Book.build(req.body);
-            book.id = req.params.id;
-            res.render("update-book", { book, errors: error.errors, title: "Edit " + book.title, id:book.id })
+            const errors = error.errors.map(err => err.message);
+            res.status(400).json({ errors }); 
         } else {
             throw error;
         }
