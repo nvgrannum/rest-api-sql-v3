@@ -17,6 +17,7 @@ const courseRoutes= require('./routes/courseRoutes');
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
 
+
 (async()=>{
   try{
     await sequelize.authenticate();
@@ -29,6 +30,7 @@ app.use('/api/courses', courseRoutes);
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
+app.use(express.json())
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
