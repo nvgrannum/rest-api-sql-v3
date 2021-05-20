@@ -23,7 +23,7 @@ app.use('/api/courses', courseRoutes);
 (async()=>{
   try{
     await sequelize.authenticate();
-    console.log('connection was successful')
+    console.log('connection to the database was successful')
   } catch(err){
     console.error('unable to connect to database')
   }

@@ -12,7 +12,6 @@ function asyncHandler (cb) {
       try {
         await cb(req, res, next);
       } catch (error) {
-        // Forward error to the global error handler
         next(error);
       }
     }
@@ -27,7 +26,7 @@ router.get('/', authenticateUser, asyncHandler(async(req,res)=>{
       name:user.firstName + ' ' + user.lastName,
       email: user.emailAddress
     })
-  }))
+}))
   
 // Route that creates a new user.
 router.post('/', asyncHandler(async (req, res) => {
@@ -37,13 +36,13 @@ router.post('/', asyncHandler(async (req, res) => {
     console.log(user);
     res.status(201).location('/').end();
   } catch (error) {
-    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-      const errors = error.errors.map(err => err.message);
-      res.status(400).json({ errors });   
+      if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+        const errors = error.errors.map(err => err.message);
+        res.status(400).json({ errors });   
     } else {
-      throw error;
+        throw error;
     }
   }
 }));
   
-  module.exports = router;
+module.exports = router;
