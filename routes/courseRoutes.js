@@ -63,7 +63,7 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
 router.post('/', authenticateUser, asyncHandler(async (req, res) => {
 try {
     const course = await Course.create(req.body);
-    res.status(201).location('/'+ course.id ).end();
+    res.status(201).location('/api/courses/'+ course.id ).end();
 } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
         const errors = error.errors.map(err => err.message);
@@ -110,7 +110,7 @@ router.delete('/:id', authenticateUser, asyncHandler(async (req, res) => {
     try {
         course = await Course.findByPk(req.params.id);
         if(course) {
-            if(userId == course.id){
+            if(userId == course.userId){
                 await course.destroy();
                 res.status(204).end(); 
             } else {
