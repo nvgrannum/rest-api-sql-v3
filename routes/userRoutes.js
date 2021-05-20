@@ -23,8 +23,10 @@ router.get('/', authenticateUser, asyncHandler(async(req,res)=>{
     const user = req.currentUser;
 
     res.status(200).json({
-      name:user.firstName + ' ' + user.lastName,
-      email: user.emailAddress
+      firstName:user.firstName,
+      lastName:user.lastName,
+      email: user.emailAddress,
+      userId:user.id
     })
 }))
   
