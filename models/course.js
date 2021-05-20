@@ -43,7 +43,11 @@ module.exports = (sequelize) =>{
         Course.belongsTo(models.User, {
             foreignKey:{
                 fieldName:"userId",
-                allowNull:false
+                allowNull:false,
+                validate:{notNull:{
+                    msg:"Course owner cannot be blank"
+                    }
+                }   
             }
         })
     }

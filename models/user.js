@@ -39,6 +39,9 @@ module.exports = (sequelize) =>{
                 },
                 notEmpty:{
                     msg:"Please provide an email"
+                },
+                isEmail:{
+                    msg:"Email must be formatted properly"
                 } 
             }
         },
@@ -64,7 +67,12 @@ module.exports = (sequelize) =>{
         User.hasMany(models.Course, {
             foreignKey:{
                 fieldName:"userId",
-                allowNull:false
+                allowNull:false,
+                validate:{
+                    notNull:{
+                        msg:"Course owner cannot be blank"
+                    }
+                }
             }
         });
     };

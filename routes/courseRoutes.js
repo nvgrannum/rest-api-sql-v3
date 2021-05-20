@@ -22,8 +22,14 @@ function asyncHandler (cb) {
 router.get('/', asyncHandler(async(req,res)=>{
     const courses = await Course.findAll({
         include:[{
-            model:User
-        }]
+            model:User,
+            attributes:{
+                exclude:["createdAt","updatedAt","password"]
+            }
+        }],
+        attributes:{
+            exclude:["createdAt","updatedAt"]
+        }
     });
     res.status(200).json(courses)
 }))
@@ -35,9 +41,14 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
         req.params.id, 
         {include:[{
             model:User,
-            attributes:["firstName", "lastName"]
-        }]
-    });
+            attributes:{
+                exclude:["createdAt","updatedAt","password"]
+            }
+        }],
+        attributes:{
+            exclude:["createdAt","updatedAt"]
+        }}
+    );
     if (course){
         res.status(200).json(course);
     } else {
@@ -68,12 +79,17 @@ try {
 router.put('/:id', authenticateUser, asyncHandler(async (req, res) => {
     let course;
     let search;
+    let userId=req.currentUser.id
     try {
         course = req.body;
         search= await Course.findByPk(req.params.id);
         if(course && search) {
-            await Course.update(course, {where:{id: req.params.id}});
-            res.status(204).end(); 
+            if(userId ==search.userId){
+                await Course.update(course, {where:{id: req.params.id}});
+                res.status(204).end(); 
+            } else {
+                res.status(403).end();
+            }
         } else {
             res.sendStatus(404);
         }
