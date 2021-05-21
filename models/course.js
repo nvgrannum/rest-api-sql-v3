@@ -44,8 +44,12 @@ module.exports = (sequelize) =>{
             foreignKey:{
                 fieldName:"userId",
                 allowNull:false,
-                validate:{notNull:{
-                    msg:"Course owner cannot be blank"
+                validate:{
+                    notNull:{
+                        msg:"Course owner cannot be blank"
+                    },
+                    notEmpty:{
+                        msg:"Course owner cannot be blank"
                     }
                 }   
             }

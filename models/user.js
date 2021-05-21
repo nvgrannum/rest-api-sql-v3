@@ -71,6 +71,9 @@ module.exports = (sequelize) =>{
                 validate:{
                     notNull:{
                         msg:"Course owner cannot be blank"
+                    },
+                    notEmpty:{
+                        msg:"Course owner cannot be blank"
                     }
                 }
             }
